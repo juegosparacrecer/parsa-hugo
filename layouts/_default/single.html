@@ -1,7 +1,7 @@
 {{ define "main" }}
 
 <!-- page-title -->
-<section class="section bg-secondary">
+<section class="section bg-secondary{{ if isset .Params "Categories" }}-{{ index .Params.Categories 0 | lower }}{{end}}">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -25,6 +25,15 @@
           <img src="{{.Params.Image | absURL }}" alt="post-thumb" class="img-fluid rounded float-left mr-5 mb-4">
           {{.Content}}
         </article>
+        {{- if not (eq (len .Params.Categories) 0) }}
+        <ul class="list-inline tag-list">
+          {{- range .Params.Categories }}
+          <b>Categorias:</b> 
+          <li class="list-inline-item m-1"><a href="{{ "categories/" | relLangURL }}{{ . | urlize | lower }}">{{ . | title | humanize }}</a></li>
+          {{- end }}
+        </ul>
+        {{- end }}
+        <br></br>
       </div>
       {{partial "sidebar.html" . }}
     </div>
